@@ -1,0 +1,4 @@
+name = Resend Validation
+description = My Test.
+core = 7.x
+dependencies[] = block

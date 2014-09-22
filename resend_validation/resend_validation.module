@@ -1,0 +1,26 @@
+<?php
+
+/**
+ * Implements hook_block_info().
+ */
+function resend_validation_block_info() {
+  $blocks['resend_validation'] = array(
+    'info' => t('Resend validation email'),
+    'cache' => DRUPAL_NO_CACHE,
+  );
+  return $blocks;
+}
+
+/**
+ * Implements hook_block_view().
+ */
+function resend_validation_block_view() {
+  global $user;
+  $id = logintoboggan_validating_id();
+  if (!variable_get('user_email_verification', TRUE) && array_key_exists($id, $user->roles)) {
+    $current_user = ($GLOBALS['user']->uid);
+    $block['subject'] = t('');
+ $block['content'] = t('Your e-mail address has not yet been verified. An e-mail message has been sent to you with a verification link; please open the e-mail and click on the link to verify your e-mail address. You will not be able to claim participation for {website} Activities until you verify your e-mail address. <br>') . l('Resend verification email','toboggan/revalidate/' . $current_user) . t('<br><br>If you are unable to verify your e-mail address, please contact us: ') . l('info@test.org','mailto:info@test.org');
+    return $block;
+  }
+}
