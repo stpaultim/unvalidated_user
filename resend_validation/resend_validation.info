@@ -1,4 +1,6 @@
 name = Resend Validation
-description = My Test.
+description = Creates an alert on every page to remind unvalidated users to valitate their account.
 core = 7.x
 dependencies[] = block
+dependencies[] = logintoboggan
+stylesheets[all][] = resend_validation.css

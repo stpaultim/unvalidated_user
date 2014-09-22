@@ -16,11 +16,40 @@ function resend_validation_block_info() {
  */
 function resend_validation_block_view() {
   global $user;
+  $default_message = 'Your e-mail address has not yet been verified. An e-mail message has been sent to you with a verification link; please open the e-mail and click on the link to verify your e-mail addresss.';
   $id = logintoboggan_validating_id();
   if (!variable_get('user_email_verification', TRUE) && array_key_exists($id, $user->roles)) {
     $current_user = ($GLOBALS['user']->uid);
     $block['subject'] = t('');
- $block['content'] = t('Your e-mail address has not yet been verified. An e-mail message has been sent to you with a verification link; please open the e-mail and click on the link to verify your e-mail address. You will not be able to claim participation for {website} Activities until you verify your e-mail address. <br>') . l('Resend verification email','toboggan/revalidate/' . $current_user) . t('<br><br>If you are unable to verify your e-mail address, please contact us: ') . l('info@test.org','mailto:info@test.org');
+ $block['content'] = variable_get('resend_validation_block_mssg', $default_message). '<br>' . l('Resend verification email','toboggan/revalidate/' . $current_user);
     return $block;
+  }
+}
+
+/**
+ * Implements hook_block_configure().
+ */
+function resend_validation_block_configure($delta = '') {
+  if($delta == 'resend_validation') {
+  // Get the maximum allowed value from the configuration form.
+  $max_to_display = variable_get('trails_block_max', 50);
+
+  // Add a select box of numbers form 1 to $max_to_display.
+  $default_message = 'Your e-mail address has not yet been verified. An e-mail message has been sent to you with a verification link; please open the e-mail and click on the link to verify your e-mail address.';
+  $form['resend_validation_block_mssg'] = array(
+    '#type' => 'textarea',
+    '#title' => t('Text to show Unvalidated Uses'),
+    '#default_value' => variable_get('resend_validation_block_mssg', $default_message),
+  );
+  return $form;
+  }
+}
+
+/**
+ * Implements hook_block_save().
+ */
+function resend_validation_block_save($delta = '', $edit = array()) {
+if($delta == 'resend_validation') {
+  variable_set('resend_validation_block_mssg', $edit['resend_validation_block_mssg']);
   }
 }

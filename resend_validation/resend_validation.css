@@ -1,0 +1,10 @@
+.block-resend-validation {
+    color: #884400;
+    margin: 18px 15px 10px 0px;
+    background-color: #FFFCE5;
+    background-image: url(/misc/message-24-warning.png);
+    background-position:8px 8px;
+    background-repeat:no-repeat no-repeat;
+    border:1px solid #EEDD55;
+    padding:10px 10px 10px 50px;
+}
